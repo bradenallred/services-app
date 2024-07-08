@@ -1,0 +1,10 @@
+<%= render @post %>
+
+<div class="flex space-x-4">
+  <%= link_to "Back to posts", posts_path, class: "bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600" %>
+  
+  <% if user_signed_in? && @post.user == current_user %>
+    <%= link_to "Edit this post", edit_post_path(@post), class: "bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" %>
+    <%= button_to "Destroy this post", @post, method: :delete, class: "bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600", data: { confirm: 'Are you sure?' } %>
+  <% end %>
+</div>
