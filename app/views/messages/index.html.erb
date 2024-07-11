@@ -1,9 +1,0 @@
-<h1>Messages</h1>
-<div class="messages">
-  <% @messages.each do |message| %>
-    <div class="message">
-      <p><strong>From:</strong> <%= message.sender.email %></p>
-      <p><%= message.content %></p>
-    </div>
-  <% end %>
-</div>

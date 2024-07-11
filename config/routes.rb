@@ -3,7 +3,6 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   resources :posts
-  resources :messages, only: [ :index, :new, :create, :show]
   
   root 'posts#index'
 end
