@@ -1,0 +1,23 @@
+<h1 class="text-2xl font-bold">Conversation with <%= @receiver.email %></h1>
+<div class="mt-4 space-y-4 mx-auto">
+  <% @messages.each do |message| %>
+    <div class="flex <% if message.user == current_user %>justify-end<% else %>justify-start<% end %>">
+      <div class="p-2  rounded-lg <% if message.user == current_user %>bg-blue-500 text-white<% else %>bg-gray-300 text-black<% end %>">
+        <p><%= message.content %></p>
+        <small><%= message.created_at.strftime("%H:%M") %></small>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-6 mx-auto">
+  <%= simple_form_for @new_message, url: messages_path do |f| %>
+    <div class="mb-4">
+      <%= f.hidden_field :receiver_id, value: @receiver.id %>
+      <%= f.input :content, input_html: { class: 'w-full p-2 border rounded-lg' }, label: false %>
+    </div>
+    <div>
+      <%= f.button :submit, "Send Message", class: "text-white bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-lg" %>
+    </div>
+  <% end %>
+</div>
