@@ -1,4 +1,4 @@
-<div id="<%= dom_id post %>" class="relative bg-white shadow-lg overflow-hidden rounded-xl mb-4">
+<div id="<%= dom_id post %>" class="relative bg-white shadow-lg w-4/5 mx-auto overflow-hidden rounded-xl mb-4">
   <% if post.image.attached? %>
      <div class="relative pb-[56.25%]"> <!-- 16:9 Aspect Ratio -->
       <%= image_tag post.image, class: "absolute inset-0 w-full h-full object-cover rounded-t-xl" %>
@@ -6,13 +6,15 @@
   <% else %>
     <div class="relative pb-[56.25%] bg-gray-100 rounded-t-xl"></div>
   <% end %>
-  <div class="p-6 flex">
+  <div class="p-6 flex justify-between items-center">
     <div>
       <h1 class="text-2xl mb-2 font-semibold"><%= post.content %></h1>
       <p class="text-gray-600"><%= post.user.email %></p>
-    <div>
-    <div>
-
     </div>
+    <%= link_to new_with_receiver_messages_path(user_id: post.user.id) do %>
+      <svg class="w-8 h-8 mr-4 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 18-7 3 7-18 7 18-7-3Zm0 0v-5"/>
+      </svg>
+    <% end %>
   </div>
 </div>

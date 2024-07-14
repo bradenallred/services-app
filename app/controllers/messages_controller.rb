@@ -8,6 +8,11 @@ class MessagesController < ApplicationController
                  .distinct
   end
 
+  def new
+    @receiver = User.find(params[:user_id])
+    @message = Message.new(receiver: @receiver)
+  end
+
   def conversation
     @receiver = User.find(params[:user_id])
     @messages = Message.where("(user_id = ? AND receiver_id = ?) OR (user_id = ? AND receiver_id = ?)", 

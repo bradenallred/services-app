@@ -2,7 +2,7 @@
 <div class="mt-4 space-y-4 mx-auto">
   <% @messages.each do |message| %>
     <div class="flex <% if message.user == current_user %>justify-end<% else %>justify-start<% end %>">
-      <div class="p-2  rounded-lg <% if message.user == current_user %>bg-blue-500 text-white<% else %>bg-gray-300 text-black<% end %>">
+      <div style="max-width: 70%;" class="p-2 rounded-lg <% if message.user == current_user %>bg-blue-500 text-white<% else %>bg-gray-300 text-black<% end %>">
         <p><%= message.content %></p>
         <small><%= message.created_at.strftime("%H:%M") %></small>
       </div>
