@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   }
 
   root 'posts#index'
+
+  get 'analytics', to: 'home#analytics'
+  get 'account', to: 'home#account'
   
   resources :posts
 

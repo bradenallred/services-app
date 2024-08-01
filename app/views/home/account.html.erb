@@ -1,0 +1,62 @@
+<div>
+    <div>
+        <div></div>
+        <div class="grid grid-cols-2 text-center">
+            <button id="my-posts-button">My Posts</button>
+            <button id="saved-posts-button">Saved</button>
+        </div>
+    </div>
+    <hr class="mb-8 mt-2" />
+    <div id="my-posts-container" class="grid grid-cols-2 gap-8">
+        <% @posts.each do |post| %>
+            <% if user_signed_in? && post.user == current_user %>
+                <div class="relative shadow-lg w-4/5 mx-auto rounded-xl overflow-hidden cursor-pointer" onclick="location.href='<%= post_path(post) %>'">
+                    <div id="menu-<%= post.id %>" class="absolute top-4 right-16 space-x-2 z-20 hidden">
+                        <%= link_to 'Edit', edit_post_path(post), class: "bg-blue-500 text-white px-2 py-1 rounded", onclick: "event.stopPropagation();" %>
+                        <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, class: "bg-red-500 text-white px-2 py-1 rounded", onclick: "event.stopPropagation();" %>
+                    </div>
+                    <button class="absolute top-3 right-4 space-x-2 z-20" onclick="toggleMenu(<%= post.id %>)">
+                        <svg class="w-8 h-8 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="4" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
+                        </svg>
+                    </button>
+                    <% if post.image.attached? %>
+                        <div class="relative pb-[56.25%]"> <!-- 16:9 Aspect Ratio -->
+                        <%= image_tag post.image, class: "absolute inset-0 w-full h-full object-cover rounded-t-xl" %>
+                        </div>
+                    <% else %>
+                        <div class="relative pb-[56.25%] bg-gray-100 rounded-t-xl"></div>
+                    <% end %>
+                    <div class="p-6 relative z-20">
+                        <h1 class="text-xl font-bold mb-2"><%= post.content %></h1>
+                        <p class="text-sm text-gray-600"><%= post.user.email %></p>
+                    </div>
+                    </div>
+            <% end %>
+        <% end %>
+    </div>
+</div>
+
+<script>
+    const myPostsContainer = document.getElementById('my-posts-container');
+    const myPostsButton = document.getElementById('my-posts-button');
+    const savedPostsButton = document.getElementById('saved-posts-button');
+
+    myPostsButton.addEventListener('click', () => {
+        if (myPostsContainer.classList.contains('hidden')) {
+            myPostsContainer.classList.remove('hidden');
+        }
+    });
+
+    savedPostsButton.addEventListener('click', () => {
+        if(!myPostsContainer.classList.contains('hidden')) {
+            myPostsContainer.classList.add('hidden');
+        }
+    });
+
+    function toggleMenu(postId) {
+    event.stopPropagation();
+    const menu = document.getElementById(`menu-${postId}`);
+    menu.classList.toggle('hidden');
+  }
+</script>
