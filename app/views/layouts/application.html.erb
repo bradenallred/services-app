@@ -18,6 +18,16 @@
 </head>
 
   <body>
+  <%= form_with(url: posts_path, method: :get, local: true, id: "filter-form") do %>
+
+  <div class="mb-4 hidden">
+    <%= hidden_field_tag :category, params[:category], id: "category-input" %>
+  </div>
+
+  <div class="mb-4">
+    <%= submit_tag "Filter", class: "bg-blue-500 text-white px-4 py-2 rounded hidden" %>
+  </div>
+<% end %>
 
       <button data-drawer-target="sidebar-multi-level-sidebar" data-drawer-toggle="sidebar-multi-level-sidebar" aria-controls="sidebar-multi-level-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
    <span class="sr-only">Open sidebar</span>
@@ -46,19 +56,19 @@
                </svg>
             </div>
             <div id="dropdownMenu" class="hidden absolute right-0 mt-6 p-4 bg-white rounded-md shadow-lg z-10">
-              <ul class="py-1">
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Home Improvement & Repair</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Cleaning Services</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Landscaping & Gardening</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Transportation & Moving</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Personal Care & Wellness</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Pet Services</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Event Services</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Tutoring & Education</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Automotive Services</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Technology & Electronics</a></li>
-              </ul>
-            </div>
+  <ul class="py-1">
+    <li><a href="#" onclick="submitCategory('Home Improvement & Repair')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Home Improvement & Repair</a></li>
+    <li><a href="#" onclick="submitCategory('Cleaning Services')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Cleaning Services</a></li>
+    <li><a href="#" onclick="submitCategory('Landscaping & Gardening')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Landscaping & Gardening</a></li>
+    <li><a href="#" onclick="submitCategory('Transportation & Moving')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Transportation & Moving</a></li>
+    <li><a href="#" onclick="submitCategory('Personal Care & Wellness')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Personal Care & Wellness</a></li>
+    <li><a href="#" onclick="submitCategory('Pet Services')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Pet Services</a></li>
+    <li><a href="#" onclick="submitCategory('Event Services')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Event Services</a></li>
+    <li><a href="#" onclick="submitCategory('Tutoring & Education')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Tutoring & Education</a></li>
+    <li><a href="#" onclick="submitCategory('Automotive Services')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Automotive Services</a></li>
+    <li><a href="#" onclick="submitCategory('Technology & Electronics')" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Technology & Electronics</a></li>
+  </ul>
+</div>
          </div>
          <div class="relative">
             <button id="locationToggle" class="bg-gray-100 ml-10 px-2 py-2 rounded-full flex items-center">
@@ -71,10 +81,15 @@
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
                </svg>
             </button>
-            <div id="locationMenu" class="absolute hidden bg-white shadow rounded-md shadow-lg px-4 py-2">
+            <div id="locationMenu" class="absolute hidden left-[3.2rem] top-[2.5rem] bg-white shadow rounded-md shadow-lg px-4 py-2">
                <input placeholder="Search by Zipcode" class="px-4 py-2 rounded-full bg-gray-100">
             </div>
          </div>
+         <button class=" ml-4 rounded-full bg-gray-100 p-2">
+            <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z"/>
+            </svg>
+         </button>
          <div class="relative">
          <button id="accountToggle" class="ml-4 pt-[5px]">
             <svg class="w-10 h-10 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -203,4 +218,11 @@
    toggleDropdown('dropdown');
    toggleDropdown('account');
    toggleDropdown('location');
+
+   function submitCategory(category) {
+    const form = document.getElementById('filter-form');
+    const categoryInput = document.getElementById('category-input');
+    categoryInput.value = category;
+    form.submit();
+  }
   </script>

@@ -5,12 +5,15 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
+    @posts = Post.all
+
     if params[:search].present?
-      @posts = Post.where("content LIKE ?", "%#{params[:search]}%")
-    else
-      @posts = Post.all
+      @posts = @posts.where("content LIKE ?", "%#{params[:search]}%")
     end
-    Rails.logger.debug "Posts: #{@posts.inspect}"
+
+    if params[:category].present?
+      @posts = @posts.where(category: params[:category])
+    end
   end
 
   # GET /posts/1 or /posts/1.json
@@ -72,7 +75,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:content, :user_id, :image)
+      params.require(:post).permit(:content, :user_id, :image, :category)
     end
 
     def authorize_business_user

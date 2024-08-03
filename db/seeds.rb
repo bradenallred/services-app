@@ -18,24 +18,65 @@ end
 # Ensure the user account_type is set to 'business' if the user already exists
 test_user.update!(account_type: 'business')
 
-# Service names array
-service_names = [
-  'Car Washing', 'Dog Walking', 'House Cleaning', 'Gardening', 'Personal Training',
-  'Tutoring', 'Graphic Design', 'Web Development', 'App Development', 'Photography',
-  'Videography', 'Moving Services', 'Laundry Services', 'Catering', 'Event Planning',
-  'IT Support', 'Painting Services', 'Plumbing', 'Electrical Services', 'Carpentry',
-  'Pest Control', 'Roofing', 'Masonry', 'Interior Design', 'Auto Repair',
-  'Pet Sitting', 'Babysitting', 'Elderly Care', 'Massage Therapy', 'Fitness Coaching',
-  'Yoga Instruction', 'Language Translation', 'Voice Acting', 'Writing Services', 'Editing Services',
-  'Virtual Assistance', 'Social Media Management', 'SEO Services', 'Content Creation', 'Digital Marketing',
-  'Tax Preparation', 'Financial Planning', 'Legal Consultation', 'Real Estate Services', 'Mortgage Brokerage',
-  'Insurance Brokerage', 'Travel Planning', 'Concierge Services', 'Personal Shopping', 'Tailoring'
+# Service names and categories array
+services_with_categories = [
+  { name: 'Car Washing', category: 'Automotive Services' },
+  { name: 'Dog Walking', category: 'Pet Services' },
+  { name: 'House Cleaning', category: 'Cleaning Services' },
+  { name: 'Gardening', category: 'Landscaping & Gardening' },
+  { name: 'Personal Training', category: 'Personal Care & Wellness' },
+  { name: 'Tutoring', category: 'Tutoring & Education' },
+  { name: 'Graphic Design', category: 'Technology & Electronics' },
+  { name: 'Web Development', category: 'Technology & Electronics' },
+  { name: 'App Development', category: 'Technology & Electronics' },
+  { name: 'Photography', category: 'Event Services' },
+  { name: 'Videography', category: 'Event Services' },
+  { name: 'Moving Services', category: 'Transportation & Moving' },
+  { name: 'Laundry Services', category: 'Cleaning Services' },
+  { name: 'Catering', category: 'Event Services' },
+  { name: 'Event Planning', category: 'Event Services' },
+  { name: 'IT Support', category: 'Technology & Electronics' },
+  { name: 'Painting Services', category: 'Home Improvement & Repair' },
+  { name: 'Plumbing', category: 'Home Improvement & Repair' },
+  { name: 'Electrical Services', category: 'Home Improvement & Repair' },
+  { name: 'Carpentry', category: 'Home Improvement & Repair' },
+  { name: 'Pest Control', category: 'Home Improvement & Repair' },
+  { name: 'Roofing', category: 'Home Improvement & Repair' },
+  { name: 'Masonry', category: 'Home Improvement & Repair' },
+  { name: 'Interior Design', category: 'Home Improvement & Repair' },
+  { name: 'Auto Repair', category: 'Automotive Services' },
+  { name: 'Pet Sitting', category: 'Pet Services' },
+  { name: 'Babysitting', category: 'Personal Care & Wellness' },
+  { name: 'Elderly Care', category: 'Personal Care & Wellness' },
+  { name: 'Massage Therapy', category: 'Personal Care & Wellness' },
+  { name: 'Fitness Coaching', category: 'Personal Care & Wellness' },
+  { name: 'Yoga Instruction', category: 'Personal Care & Wellness' },
+  { name: 'Language Translation', category: 'Tutoring & Education' },
+  { name: 'Voice Acting', category: 'Event Services' },
+  { name: 'Writing Services', category: 'Technology & Electronics' },
+  { name: 'Editing Services', category: 'Technology & Electronics' },
+  { name: 'Virtual Assistance', category: 'Technology & Electronics' },
+  { name: 'Social Media Management', category: 'Technology & Electronics' },
+  { name: 'SEO Services', category: 'Technology & Electronics' },
+  { name: 'Content Creation', category: 'Technology & Electronics' },
+  { name: 'Digital Marketing', category: 'Technology & Electronics' },
+  { name: 'Tax Preparation', category: 'Financial Services' },
+  { name: 'Financial Planning', category: 'Financial Services' },
+  { name: 'Legal Consultation', category: 'Legal Services' },
+  { name: 'Real Estate Services', category: 'Real Estate Services' },
+  { name: 'Mortgage Brokerage', category: 'Financial Services' },
+  { name: 'Insurance Brokerage', category: 'Financial Services' },
+  { name: 'Travel Planning', category: 'Concierge Services' },
+  { name: 'Concierge Services', category: 'Concierge Services' },
+  { name: 'Personal Shopping', category: 'Concierge Services' },
+  { name: 'Tailoring', category: 'Personal Care & Wellness' }
 ]
 
-# Create 50 posts
-service_names.each do |service_name|
+# Create 50 posts with categories
+services_with_categories.each do |service|
   Post.create!(
-    content: service_name,
+    content: service[:name],
+    category: service[:category],
     user: test_user
   )
 end
