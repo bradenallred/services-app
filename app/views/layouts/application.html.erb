@@ -43,7 +43,9 @@
          </button>
          <div class="relative w-full">
 
-            <input placeholder="Search" class="w-full pl-16 mx-6 pr-4 py-2 bg-gray-100 rounded-full">
+            <%= form_with url: posts_path, method: :get, local: true, id: 'search-form' do %>
+               <%= text_field_tag :search, params[:query], placeholder: 'Search', id: 'search_input', class: 'w-full pl-16 mx-6 pr-4 py-2 bg-gray-100 rounded-full' %>
+            <% end %>
             
             <div class="absolute inset-y-0 left-0 pl-12 flex items-center pointer-events-none">
                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -226,4 +228,13 @@
     categoryInput.value = category;
     form.submit();
   }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("search_input");
+    const searchForm = document.getElementById("search_form");
+
+    searchInput.addEventListener("input", function() {
+      searchForm.submit();
+    });
+  });
   </script>
