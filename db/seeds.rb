@@ -75,7 +75,8 @@ services_with_categories = [
 # Create 50 posts with categories
 services_with_categories.each do |service|
   Post.create!(
-    content: service[:name],
+    job_title: service[:name],
+    job_description: "Sample Description here",
     category: service[:category],
     user: test_user
   )

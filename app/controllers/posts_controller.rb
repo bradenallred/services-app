@@ -7,6 +7,8 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all
 
+    @posts_by_category = Post.all.group_by(&:category)
+
     if params[:search].present?
       @posts = @posts.where("content LIKE ?", "%#{params[:search]}%")
     end
@@ -75,7 +77,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:content, :user_id, :image, :category)
+      params.require(:post).permit(:job_title, :job_description, :user_id, :image, :category)
     end
 
     def authorize_business_user
