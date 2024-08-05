@@ -12,7 +12,16 @@ class PostsController < ApplicationController
     if params[:search].present?
       @posts = Post.where("job_title LIKE ? OR job_description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
       @searching = true
+      @filtering_by_category = false
+      @selected_category = nil
+    elsif params[:category].present?
+      @posts = Post.where(category: params[:category])
+      @searching = false
+      @filtering_by_category = true
+      @selected_category = params[:category]
     else
+      @filtering_by_category = false
+      @selected_category = nil
       @searching = false
       @posts_by_category = @posts.group_by(&:category)
     end

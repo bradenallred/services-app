@@ -1,5 +1,8 @@
 <div id="posts_container" class="container mx-auto px-4">
-  <% if @searching %>
+  <% if @searching || @filtering_by_category %>
+  <% if @selected_category %>
+    <h2 class="mb-4 text-2xl"><%= @selected_category %></h2>
+  <% end %>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
   <% @posts.each do |post| %>
     <div class="relative shadow-lg rounded-xl overflow-hidden cursor-pointer" onclick="location.href='<%= post_path(post) %>'">
