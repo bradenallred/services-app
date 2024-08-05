@@ -24,6 +24,7 @@ class MessagesController < ApplicationController
     @message = current_user.sent_messages.build(message_params)
     if @message.save
       redirect_to conversation_messages_path(@message.receiver_id), notice: "Message sent!"
+      Notification.create(user: @message.receiver, message: @message)
     else
       render :conversation
     end

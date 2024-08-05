@@ -83,11 +83,31 @@
                <input placeholder="Search by Zipcode" class="px-4 py-2 rounded-full bg-gray-100">
             </div>
          </div>
-         <button class=" ml-4 rounded-full bg-gray-100 p-2">
-            <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z"/>
-            </svg>
-         </button>
+         <% if user_signed_in? %>
+            <div class="relative">
+               <button id="notification-bell" class="relative ml-4 rounded-full bg-gray-100 p-1">
+                  <svg class="w-8 h-8 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z"/>
+                  </svg>
+                  <% if current_user.notifications.unread.any? %>
+                  <span id="notification-dot" class="absolute top-[-2px] right-[-2px] block h-4 w-4 bg-red-500 rounded-full"></span>
+                  <% end %>
+               </button>
+               <div id="notification-dropdown" class="hidden absolute pt-2 right-0 mt-2 w-72 bg-white rounded-md shadow-lg overflow-y-auto" style="max-height: 200px;">
+                  <h2 class="text-xl font-bold px-4">Notifications</h2>
+                  <ul id="notification-list">
+                  <% current_user.notifications.order(created_at: :desc).each do |notification| %>
+                     <% link_to conversation_messages_path(2), class: "border-b p-4" do %>
+                        <a href="<%= mark_as_read_notification_path(notification) %>" data-method="patch" class="block text-sm">
+                        <span class="text-base font-bold"><%= notification.message.user.email %></span><br>
+                        <%= notification.message.content.truncate(30) %>
+                        </a>
+                     <% end %>
+                  <% end %>
+                  </ul>
+               </div>
+            </div>
+         <% end %>
          <div class="relative">
          <button id="accountToggle" class="ml-4 pt-[5px]">
             <svg class="w-10 h-10 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -232,4 +252,18 @@
       searchForm.submit();
     });
   });
+  document.addEventListener("DOMContentLoaded", function() {
+  const notificationBell = document.getElementById("notification-bell");
+  const notificationDropdown = document.getElementById("notification-dropdown");
+
+  notificationBell.addEventListener("click", function() {
+    notificationDropdown.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", function(event) {
+    if (!notificationBell.contains(event.target) && !notificationDropdown.contains(event.target)) {
+      notificationDropdown.classList.add("hidden");
+    }
+  });
+});
   </script>

@@ -10,6 +10,12 @@ Rails.application.routes.draw do
   
   resources :posts
 
+  resources :notifications, only: [:index] do
+    member do
+      patch :mark_as_read
+    end
+  end
+
   resources :messages, only: [:new, :create, :index] do 
     collection do
       get ':user_id', to: 'messages#conversation', as: 'conversation'
