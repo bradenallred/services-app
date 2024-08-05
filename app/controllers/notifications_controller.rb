@@ -7,8 +7,10 @@ class NotificationsController < ApplicationController
 
   def mark_as_read
     @notification = Notification.find(params[:id])
+    sender_id = @notification.message.user_id  # Accessing the sender's user ID
+    sender = User.find(sender_id) 
     if @notification.update(read: true)
-      redirect_to conversation_path(@notification.message.conversation)
+      redirect_to conversation_messages_path(sender)
     else
       redirect_to root_path, alert: 'Unable to mark notification as read'
     end
