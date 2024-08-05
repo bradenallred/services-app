@@ -60,15 +60,6 @@ services_with_categories = [
   { name: 'SEO Services', category: 'Technology & Electronics' },
   { name: 'Content Creation', category: 'Technology & Electronics' },
   { name: 'Digital Marketing', category: 'Technology & Electronics' },
-  { name: 'Tax Preparation', category: 'Financial Services' },
-  { name: 'Financial Planning', category: 'Financial Services' },
-  { name: 'Legal Consultation', category: 'Legal Services' },
-  { name: 'Real Estate Services', category: 'Real Estate Services' },
-  { name: 'Mortgage Brokerage', category: 'Financial Services' },
-  { name: 'Insurance Brokerage', category: 'Financial Services' },
-  { name: 'Travel Planning', category: 'Concierge Services' },
-  { name: 'Concierge Services', category: 'Concierge Services' },
-  { name: 'Personal Shopping', category: 'Concierge Services' },
   { name: 'Tailoring', category: 'Personal Care & Wellness' }
 ]
 

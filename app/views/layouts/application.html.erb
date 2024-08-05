@@ -94,15 +94,15 @@
                   <% end %>
                </button>
                <div id="notification-dropdown" class="hidden absolute pt-2 right-0 mt-2 w-72 bg-white rounded-md shadow-lg overflow-y-auto" style="max-height: 200px;">
-                  <h2 class="text-xl font-bold px-4">Notifications</h2>
+                  <h2 class="text-xl font-bold px-4 pb-2">Notifications</h2>
                   <ul id="notification-list">
                   <% current_user.notifications.order(created_at: :desc).each do |notification| %>
-                     <% link_to conversation_messages_path(2), class: "border-b p-4" do %>
+                     <li class="border-b p-4">
                         <a href="<%= mark_as_read_notification_path(notification) %>" data-method="patch" class="block text-sm">
                         <span class="text-base font-bold"><%= notification.message.user.email %></span><br>
                         <%= notification.message.content.truncate(30) %>
                         </a>
-                     <% end %>
+                     </li>
                   <% end %>
                   </ul>
                </div>
