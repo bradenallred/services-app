@@ -1,6 +1,59 @@
-<div id="<%= dom_id post %>" class="relative bg-white shadow-lg w-4/5 mx-auto overflow-hidden rounded-xl mb-4">
+<div id="<%= dom_id post %>" class="mb-16 max-w-[1300px] mx-auto flex h-full">
+
+  <div class="h-full overflow-y-scroll w-3/5 pr-8">
+    <p class="my-6 pl-1 flex items-center">
+      <a href="/">
+        <svg class="w-[20px] h-[20px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"/>
+        </svg>
+      </a>
+      <span class="mx-2 text-gray-300">/</span>
+      <a href="/posts?category=<%= post.category %>"><%= post.category %></a>
+    </p>
+    <h1 class="text-4xl text-gray-800 font-semibold"><%= post.job_title %></h1>
+    <div class="my-2 flex">
+      <svg class="w-16 h-16 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+      </svg>
+      <div class="mx-2 my-auto">
+        <p><%= post.user.email %></p>
+        <a href="#" class="flex font-bold text-[16px]">
+          <svg class="w-5 h-5 text-gray-800 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
+          </svg>
+          4.2
+        </a>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <div class="h-full w-2/5 p-8 fixed right-0">
+    <div class="max-w-[450px] pr-4">
+      <div class="flex justify-end">
+        <% if current_user.saved_posts.exists?(post: post) %>
+          <%= button_to post_saved_post_path(post), method: :delete do %>
+            <svg class="w-6 h-6 mr-2 text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+            </svg>
+          <% end %>
+        <% else %>
+          <%= button_to post_saved_post_path(post), method: :post do %>
+            <svg class="w-6 h-6 mr-2 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+            </svg>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+
+<div id="<%= dom_id post %>" class="relative bg-white shadow-lg w-4/5 mx-auto overflow-hidden rounded-xl mb-4 hidden">
   <% if post.image.attached? %>
-     <div class="relative pb-[56.25%]"> <!-- 16:9 Aspect Ratio -->
+     <div class="relative pb-[56.25%]">
       <%= image_tag post.image, class: "absolute inset-0 w-full h-full object-cover rounded-t-xl" %>
     </div>
   <% else %>
@@ -18,3 +71,5 @@
     <% end %>
   </div>
 </div>
+
+-->

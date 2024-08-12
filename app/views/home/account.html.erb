@@ -2,7 +2,7 @@
     <div>
         <div></div>
         <div class="grid grid-cols-2 text-center">
-            <button id="my-posts-button">My Posts</button>
+            <button id="my-posts-button" class="font-bold">My Posts</button>
             <button id="saved-posts-button">Saved</button>
         </div>
     </div>
@@ -28,35 +28,51 @@
                         <div class="relative pb-[56.25%] bg-gray-100 rounded-t-xl"></div>
                     <% end %>
                     <div class="p-6 relative z-20">
-                        <h1 class="text-xl font-bold mb-2"><%= post.content %></h1>
+                        <h1 class="text-xl font-bold mb-2"><%= post.job_title %></h1>
                         <p class="text-sm text-gray-600"><%= post.user.email %></p>
                     </div>
                     </div>
             <% end %>
         <% end %>
     </div>
+    <div id="saved-posts-container" class="grid grid-cols-2 gap-8 hidden">
+        <% current_user.saved_posts.each do |saved_post| %>
+            <li>
+            <%= link_to saved_post.post.job_title, post_path(saved_post.post) %>
+            </li>
+        <% end %>
+    </div>
+    <ul>
+</ul>
 </div>
 
 <script>
     const myPostsContainer = document.getElementById('my-posts-container');
     const myPostsButton = document.getElementById('my-posts-button');
     const savedPostsButton = document.getElementById('saved-posts-button');
+    const savedPostsContainer = document.getElementById('saved-posts-container')
 
     myPostsButton.addEventListener('click', () => {
         if (myPostsContainer.classList.contains('hidden')) {
             myPostsContainer.classList.remove('hidden');
+            savedPostsContainer.classList.add('hidden');
+            myPostsButton.classList.add('font-bold');
+            savedPostsButton.classList.remove('font-bold');
         }
     });
 
     savedPostsButton.addEventListener('click', () => {
         if(!myPostsContainer.classList.contains('hidden')) {
             myPostsContainer.classList.add('hidden');
+            savedPostsContainer.classList.remove('hidden');
+            myPostsButton.classList.remove('font-bold');
+            savedPostsButton.classList.add('font-bold');
         }
     });
 
     function toggleMenu(postId) {
-    event.stopPropagation();
-    const menu = document.getElementById(`menu-${postId}`);
-    menu.classList.toggle('hidden');
-  }
+        event.stopPropagation();
+        const menu = document.getElementById(`menu-${postId}`);
+        menu.classList.toggle('hidden');
+    }
 </script>

@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   get 'analytics', to: 'home#analytics'
   get 'account', to: 'home#account'
   
-  resources :posts
+  resources :posts do
+    resource :saved_post, only: [:create, :destroy]
+  end
 
   resources :notifications, only: [:index] do
     member do
