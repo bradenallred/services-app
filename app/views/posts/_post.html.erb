@@ -1,4 +1,4 @@
-<div id="<%= dom_id post %>" class="mb-16 max-w-[1300px] mx-auto flex h-full">
+<div id="<%= dom_id post %>" class="mb-16 post-wrapper max-w-[1300px] mx-auto flex h-full">
 
   <div class="h-full overflow-y-scroll w-3/5 pr-8">
     <p class="my-6 pl-1 flex items-center">
@@ -11,11 +11,11 @@
       <a href="/posts?category=<%= post.category %>"><%= post.category %></a>
     </p>
     <h1 class="text-4xl text-gray-800 font-semibold"><%= post.job_title %></h1>
-    <div class="my-2 flex">
+    <div class="my-2 flex items-center">
       <svg class="w-16 h-16 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
       </svg>
-      <div class="mx-2 my-auto">
+      <div class="mx-2 my-auto vr-end">
         <p><%= post.user.email %></p>
         <a href="#" class="flex font-bold text-[16px]">
           <svg class="w-5 h-5 text-gray-800 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -24,26 +24,74 @@
           4.2
         </a>
       </div>
+      <p class="text-center ml-8 -mb-2">$$ / hour</p>
     </div>
-    <hr>
+    <hr class="mb-8">
+    <% if post.image.attached? %>
+     <div class="relative pb-[56.25%]">
+      <%= image_tag post.image, class: "absolute inset-0 w-full h-full object-cover rounded-xl" %>
+    </div>
+    <% else %>
+      <div class="relative pb-[56.25%] bg-gray-100 rounded-md"></div>
+    <% end %>
   </div>
 
-  <div class="h-full w-2/5 p-8 fixed right-0">
+  <div class="h-full -mt-4 w-2/5 overflow-hidden p-8 fixed right-0">
     <div class="max-w-[450px] pr-4">
-      <div class="flex justify-end">
-        <% if current_user.saved_posts.exists?(post: post) %>
-          <%= button_to post_saved_post_path(post), method: :delete do %>
-            <svg class="w-6 h-6 mr-2 text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
-            </svg>
-          <% end %>
-        <% else %>
-          <%= button_to post_saved_post_path(post), method: :post do %>
-            <svg class="w-6 h-6 mr-2 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
-            </svg>
+      <div class="flex items-center justify-end">
+        <% if user_signed_in? %>
+          <% if current_user.saved_posts.exists?(post: post) %>
+            <%= button_to post_saved_post_path(post), method: :delete do %>
+              <svg class="w-8 h-8 mr-3 -mb-[2px] transform hover:scale-110 transition duration-200 ease-in-out text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+              </svg>
+            <% end %>
+          <% else %>
+            <%= button_to post_saved_post_path(post), method: :post do %>
+              <svg class="w-8 h-8 mr-3 -mb-[2px] transform hover:scale-110 transition duration-200 ease-in-out text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+              </svg>
+            <% end %>
           <% end %>
         <% end %>
+        <button class="mr-2 px-3 py-1 border border-gray-400 rounded-lg hover:bg-gray-50">
+          <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7.926 10.898 15 7.727m-7.074 5.39L15 16.29M8 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm12 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm0-11a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
+          </svg>
+        </button>
+        <button class="mr-2 px-3 py-1 border border-gray-400 rounded-lg hover:bg-gray-50">
+          <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
+          </svg>
+        </button>
+      </div>
+      <div class="mt-4 flex flex-col items-center p-6 border rounded-sm border-gray-600">
+        <h1 class="text-xl">Schedule</h1>
+        <div id="date_picker" class="">
+          <div id="date_picker_input">
+            <input type="text" id="date" class="hidden" readonly />
+          </div>
+          <div id="date_picker_calendar">
+            <div id="calendar_header">
+            <button class="cal-btn back"><img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABJUlEQVR4nO2Uv0oDQRCHR9BKrAQJ2FgIdnc7njtzSbMzd7lGC80T5DXMW+gzpNJHsPEJYuELBA60EBELsfIfBGIixvNyt0IKP9h2vt3fb1iAfxaCXZt0DGuOrO8+jmHNQ3JHnwLDeutrOI4lJDcTAcngDwSDSUSkCbK++RSEJAdfejCkfX+31/63oq1N15H0rn7Bch80s42Z22SsdGsLrHQLVxZJLioLSC8BYKlQELLbQpanCrk/Y+y2C4dPFd6bP3s9hrI455aR9GqO219HUbRSWjB6xV5qDcnL7wJ5RZs2oQpIelqi2BOoShBkq0g6LMg932m11qAOhnX/5+zlEHyALOczhp+BL6x1DSR9mPoOHsM42QSfGE6yUR+kQxO7ttfhC80HheuaG9wAq10AAAAASUVORK5CYII="></button>
+            <span></span>
+            <button class="cal-btn front"><img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABJUlEQVR4nO2Uv0oDQRCHR9BKrAQJ2FgIdnc7njtzSbMzd7lGC80T5DXMW+gzpNJHsPEJYuELBA60EBELsfIfBGIixvNyt0IKP9h2vt3fb1iAfxaCXZt0DGuOrO8+jmHNQ3JHnwLDeutrOI4lJDcTAcngDwSDSUSkCbK++RSEJAdfejCkfX+31/63oq1N15H0rn7Bch80s42Z22SsdGsLrHQLVxZJLioLSC8BYKlQELLbQpanCrk/Y+y2C4dPFd6bP3s9hrI455aR9GqO219HUbRSWjB6xV5qDcnL7wJ5RZs2oQpIelqi2BOoShBkq0g6LMg932m11qAOhnX/5+zlEHyALOczhp+BL6x1DSR9mPoOHsM42QSfGE6yUR+kQxO7ttfhC80HheuaG9wAq10AAAAASUVORK5CYII="></button>
+            </div>
+            <div id="cal_wrapper">
+              <div id="cal_days"></div>
+              <div id="calendar_main"></div>
+            </div>
+          </div>
+        </div>
+        <button class="w-full flex justify-center items-center py-3 bg-gray-800 hover:bg-gray-600 text-white text-lg my-4 rounded-sm text-center mx-4">
+          Continue
+          <svg class="w-6 ml-2 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+          </svg>
+        </button>
+        <%= link_to 'Contact Seller', new_with_receiver_messages_path(user_id: post.user.id), class:"w-full py-3 border border-gray-800 text-gray-800 text-center text-lg rounded-sm mx-4 hover:bg-gray-100" %>
       </div>
     </div>
   </div>
@@ -73,3 +121,320 @@
 </div>
 
 -->
+
+<script>
+  const isPastDay = (timestamp) => {
+    return timestamp < todayTimestamp;
+  };
+
+  const calendar = document.querySelector("#calendar_main"),
+      input = document.querySelector("#date"),
+      calHeader = document.querySelector("#calendar_header"),
+      calHeaderTitle = document.querySelector("#calendar_header span"),
+      calDays = document.querySelector("#cal_days"),
+      days = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+      ],
+      months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December"
+      ];
+
+  let oneDay = 60 * 60 * 24 * 1000;
+  let todayTimestamp =
+      Date.now() -
+      (Date.now() % oneDay) +
+      new Date().getTimezoneOffset() * 1000 * 60;
+
+  let selectedDay = todayTimestamp;
+  // console.log(selectedDay); // Str in millisec
+
+  // Get num of days in month
+  // month param 0-11
+  const getNumberOfDays = (year, month) => {
+      return 40 - new Date(year, month, 40).getDate();
+  };
+  // getNumberOfDays(2023, 1);
+
+  // Calc day details
+  const getDayDetails = (args) => {
+      let date = args.index - args.firstDay;
+      let day = args.index % 7;
+      // console.log(day)
+      let prevMonth = args.month - 1;
+      let prevYear = args.year;
+      if (prevMonth < 0) {
+          prevMonth = 11;
+          prevYear--;
+      }
+      let prevMonthNumberOfDays = getNumberOfDays(prevYear, prevMonth);
+
+      let _date =
+          (date < 0 ? prevMonthNumberOfDays + date : date % args.numberOfDays) + 1;
+      // console.log(_date)
+      let month = date < 0 ? -1 : date >= args.numberOfDays ? 1 : 0;
+      let timestamp = new Date(args.year, args.month, _date).getTime();
+      // console.log(timestamp)
+      return {
+          date: _date,
+          day,
+          month,
+          timestamp,
+          dayString: days[day]
+      };
+  };
+
+  // [{}] each {} with details for each day of month
+  const getMonthDetails = (year, month) => {
+      let firstDay = new Date(year, month).getDay();
+      let numberOfDays = getNumberOfDays(year, month);
+      let monthArray = [];
+      let rows = 5;
+      let currentDay = null;
+      let index = 0;
+      let cols = 7;
+
+      for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+              currentDay = getDayDetails({
+                  index,
+                  numberOfDays,
+                  firstDay,
+                  year,
+                  month
+              });
+              monthArray.push(currentDay);
+              index++;
+          }
+      }
+      return monthArray;
+  };
+  // getMonthDetails(2023, 3)
+
+  // Variables that get updated with "state" changes
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth();
+  let monthDetails = getMonthDetails(year, month);
+
+  const isCurrentDay = (day, cell) => {
+      if (day.timestamp === todayTimestamp) {
+          cell.classList.add("active");
+          cell.classList.add("isCurrent");
+
+      }
+  };
+
+  // Checks if day is one selected
+  const isSelectedDay = (day, cell) => {
+      if (day.timestamp === selectedDay) {
+          cell.classList.add("active");
+          cell.classList.add("isSelected");
+      }
+  };
+
+  // Get month str
+  const getMonthStr = (month) =>
+      months[Math.max(Math.min(11, month), 0)] || "Month";
+  // console.log(getMonthStr(month))
+
+  // Set year using arrows
+  const setHeaderNav = (offset) => {
+      month = month + offset;
+      if (month === -1) {
+          month = 11;
+          year--;
+      } else if (month === 12) {
+          month = 0;
+          year++;
+      }
+      monthDetails = getMonthDetails(year, month);
+      // console.log(getMonthDetails(year, month))
+      return {
+          year,
+          month,
+          monthDetails
+      };
+  };
+
+  // Set dynamic calendar header
+  const setHeader = (year, month) => {
+      calHeaderTitle.innerHTML = getMonthStr(month) + " " + year;
+  };
+
+  // Set calendar header
+  setHeader(year, month);
+
+  // 1677139200000 => "2023-02-23"
+  const getDateStringFromTimestamp = (timestamp) => {
+      let dateObject = new Date(timestamp);
+      let month = dateObject.getMonth();
+      let date = dateObject.getDate();
+      // return (
+      //   dateObject.getFullYear() +
+      //   "-" +
+      //   (month < 10 ? "0" + month : month) +
+      //   "-" +
+      //   (date < 10 ? "0" + date : date)
+      // );
+      return `${getMonthStr(month)} ${date}, ${dateObject.getFullYear()}`;
+  };
+
+  const setDateToInput = (timestamp) => {
+      let dateString = getDateStringFromTimestamp(timestamp);
+      input.value = dateString;
+  };
+  setDateToInput(todayTimestamp);
+
+  // Add days row to calendar
+  for (let i = 0; i < days.length; i++) {
+      let div = document.createElement("div"),
+          span = document.createElement("span");
+
+      div.classList.add("cell_wrapper");
+      // div.classList.add("cal_days");
+      span.classList.add("cell_item");
+
+      span.innerText = days[i].slice(0, 2);
+
+      div.appendChild(span);
+      calDays.appendChild(div);
+  }
+
+  // Add dates to calendar
+  const setCalBody = (monthDetails) => {
+      // Add dates to calendar
+      for (let i = 0; i < monthDetails.length; i++) {
+          let div = document.createElement("div"),
+              span = document.createElement("span");
+
+          div.classList.add("cell_wrapper");
+          div.classList.add("cal_date");
+
+          if (monthDetails[i].month === 0) {
+              div.classList.add("current");
+              isCurrentDay(monthDetails[i], div);
+              if (monthDetails[i].day === 0 || isPastDay(monthDetails[i].timestamp)) {
+                  div.classList.add("disabled");
+              }
+          }
+
+          span.classList.add("cell_item");
+          span.innerText = monthDetails[i].date;
+
+          div.appendChild(span);
+          calendar.appendChild(div);
+      }
+  };
+
+  setCalBody(monthDetails);
+
+  const updateCalendar = (btn) => {
+      let newCal, offset;
+      if (btn.classList.contains("back")) {
+          // let { year, month, monthDetails } = setHeaderNav(-1);
+          offset = -1;
+      } else if (btn.classList.contains("front")) {
+          // let { year, month, monthDetails } = setHeaderNav(1);
+          offset = 1;
+      }
+      newCal = setHeaderNav(offset);
+      // console.log(monthDetails)
+      setHeader(newCal.year, newCal.month);
+      calendar.innerHTML = "";
+      setCalBody(newCal.monthDetails);
+  };
+
+  // Only one calendar date is selected
+  const selectOnClick = () => {
+      document.querySelectorAll(".cell_wrapper").forEach((cell) => {
+          cell.classList.contains("isSelected") && cell.classList.remove("active");
+
+          if (cell.classList.contains("isCurrent") &&
+              !cell.classList.contains("active")) {
+              cell.querySelector("span").classList.add("inactive_indicator");
+          }
+      });
+  };
+
+
+  const updateInput = () => {
+      let currentDay = document.querySelector(".isCurrent");
+
+      document.querySelectorAll(".cell_wrapper").forEach((cell) => {
+          if (cell.classList.contains("current") && !cell.classList.contains("disabled")) {
+              cell.addEventListener("click", (e) => {
+                  let cell_date = e.target.textContent;
+
+                  currentDay !== null && currentDay.classList.remove("active");
+
+                  for (let i = 0; i < monthDetails.length; i++) {
+                      if (monthDetails[i].month === 0) {
+                          if (monthDetails[i].date.toString() === cell_date) {
+                              selectedDay = monthDetails[i].timestamp;
+                              setDateToInput(selectedDay);
+                              selectOnClick();
+
+                              isSelectedDay(monthDetails[i], cell);
+
+                              cell.querySelector('span').classList.contains('inactive_indicator') &&
+                                  cell.querySelector('span').classList.remove('inactive_indicator');
+                          }
+                      }
+                  }
+              });
+          }
+      });
+  };
+
+  updateInput();
+
+  // Set header nav actions
+  document.querySelectorAll(".cal-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+          updateCalendar(btn);
+          updateInput();
+      });
+  });
+
+  input.addEventListener('click', () => {
+      //        document.querySelector('#date_picker_calendar').classList.toggle('hidden');
+      document.querySelector('#date_picker_input').classList.toggle('showCal');
+      document.querySelector('#date').classList.toggle('onFocus');
+  });
+
+
+  // Update input value when a date is clicked
+  calendar.addEventListener("click", (e) => {
+      if (e.target.classList.contains("cal_date") && !e.target.classList.contains("disabled")) {
+          let selectedDate = new Date(year, month, parseInt(e.target.innerText));
+          let selectedTimestamp = selectedDate.getTime();
+
+      }
+      const dateCell = e.target.closest('.cal_date');
+      if (dateCell) {
+          // Get the selected date from the clicked cell
+          const selectedDate = new Date(year, month, parseInt(dateCell.innerText));
+
+          const options = { year: 'numeric', month: 'numeric', day: 'numeric' };;
+
+          // Proceed action here
+      }
+  });
+</script>
