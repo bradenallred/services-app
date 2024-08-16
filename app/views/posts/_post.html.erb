@@ -1,6 +1,6 @@
-<div id="<%= dom_id post %>" class="mb-16 post-wrapper max-w-[1300px] mx-auto flex h-full">
+<div id="<%= dom_id post %>" class="mb-16 post-wrapper max-w-[1300px] mx-auto md:flex h-full">
 
-  <div class="h-full overflow-y-scroll w-3/5 pr-8">
+  <div class="h-full md:overflow-y-scroll md:w-3/5 pr-8">
     <p class="my-6 pl-1 flex items-center">
       <a href="/">
         <svg class="w-[20px] h-[20px] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -27,17 +27,34 @@
       <p class="text-center ml-8 -mb-2">$$ / hour</p>
     </div>
     <hr class="mb-8">
-    <% if post.image.attached? %>
-     <div class="relative pb-[56.25%]">
-      <%= image_tag post.image, class: "absolute inset-0 w-full h-full object-cover rounded-xl" %>
+    <% if post.images.attached? %>
+      <!-- make carousel -->
+      <div class="relative pl-6" data-controller="carousel">
+        <div class="carousel relative overflow-hidden">
+          <div data-carousel-target="slides" class="flex transition-transform duration-300">
+            <% @post.images.each_with_index do |image, index| %>
+              <div class="carousel-item w-full relative pb-[56.25%] flex-shrink-0">
+                <%= image_tag(image, class: "absolute inset-0 w-full h-full object-cover rounded-xl") %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+    <!-- Navigation Arrows -->
+      <button data-action="carousel#previous" class="absolute custom-hover-scale left-0.5 top-1/2 transform -translate-y-1/2 py-2 shadow-lg px-4 bg-white rounded-full text-gray-800">
+        &#10094;
+      </button>
+      <button data-action="carousel#next" class="absolute custom-hover-scale -right-6 top-1/2 transform -translate-y-1/2 py-2 px-4 shadow-lg bg-white rounded-full text-gray-800">
+        &#10095;
+      </button>
     </div>
+
     <% else %>
       <div class="relative pb-[56.25%] bg-gray-100 rounded-md"></div>
     <% end %>
   </div>
 
-  <div class="h-full -mt-4 w-2/5 overflow-hidden p-8 fixed right-0">
-    <div class="max-w-[450px] pr-4">
+  <div class="h-full -mt-4 md:w-2/5 md:overflow-hidden p-8 md:fixed md:right-0">
+    <div class="md:max-w-[450px] mx-auto md:mx-0 pr-4">
       <div class="flex items-center justify-end">
         <% if user_signed_in? %>
           <% if current_user.saved_posts.exists?(post: post) %>
@@ -67,7 +84,7 @@
       </div>
       <div class="mt-4 flex flex-col items-center p-6 border rounded-sm border-gray-600">
         <h1 class="text-xl">Schedule</h1>
-        <div id="date_picker" class="">
+        <div id="date_picker">
           <div id="date_picker_input">
             <input type="text" id="date" class="hidden" readonly />
           </div>
@@ -95,32 +112,8 @@
       </div>
     </div>
   </div>
+
 </div>
-
-<!--
-
-<div id="<%= dom_id post %>" class="relative bg-white shadow-lg w-4/5 mx-auto overflow-hidden rounded-xl mb-4 hidden">
-  <% if post.image.attached? %>
-     <div class="relative pb-[56.25%]">
-      <%= image_tag post.image, class: "absolute inset-0 w-full h-full object-cover rounded-t-xl" %>
-    </div>
-  <% else %>
-    <div class="relative pb-[56.25%] bg-gray-100 rounded-t-xl"></div>
-  <% end %>
-  <div class="p-6 flex justify-between items-center">
-    <div>
-      <h1 class="text-2xl mb-2 font-semibold"><%= post.job_title %></h1>
-      <p class="text-gray-600"><%= post.user.email %></p>
-    </div>
-    <%= link_to new_with_receiver_messages_path(user_id: post.user.id) do %>
-      <svg class="w-8 h-8 mr-4 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 18-7 3 7-18 7 18-7-3Zm0 0v-5"/>
-      </svg>
-    <% end %>
-  </div>
-</div>
-
--->
 
 <script>
   const isPastDay = (timestamp) => {

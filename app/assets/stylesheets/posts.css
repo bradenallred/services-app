@@ -35,6 +35,16 @@
     top: 30px;
     margin-bottom: 50px;
  }
+ @media (max-width: 1100px) {
+   .post-wrapper #date_picker {
+      width: 300px;
+      transform: scale(0.8);
+      position: relative;
+      top: 0px;
+      margin-bottom: -10px;
+      margin-top: -10px;
+   }
+ }
  
  .post-wrapper #date_picker_input {
     margin-bottom: 8px;
@@ -200,3 +210,21 @@
        pointer-events: none;
        opacity: 0.4;
     }
+    .custom-hover-scale {
+      transition: all 0.2s ease;
+    }
+   .custom-hover-scale:hover {
+      background-color: rgb(31 41 55);
+      color: white;
+   }
+   .custom-hover-index {
+      transition: all 0.2s ease;
+      display: none;
+    }
+    .custom-hover-index-image:hover .custom-hover-index {
+      display: block;
+    }
+   .custom-hover-index:hover {
+      background-color: rgb(31 41 55);
+      color: white;
+   }

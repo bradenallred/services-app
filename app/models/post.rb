@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   validates :job_description, presence: true
 
   belongs_to :user
-  has_one_attached :image
+  has_many_attached :images
 
   has_many :saved_posts
   has_many :saved_by_users, through: :saved_posts , source: :user
