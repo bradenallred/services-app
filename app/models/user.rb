@@ -16,4 +16,6 @@ class User < ApplicationRecord
   has_many :saved_posts
   has_many :saved_posts_associations, class_name: 'PostSave', foreign_key: 'user_id'
   has_many :posts, dependent: :destroy
+
+  has_many :reviews, dependent: :destroy
 end

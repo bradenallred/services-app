@@ -33,6 +33,9 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show
+    @post = Post.find(params[:id])
+    @review = Review.new 
+    @reviews = @post.reviews.includes(:user) 
   end
 
   # GET /posts/new

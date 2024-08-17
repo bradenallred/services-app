@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   
   resources :posts do
     resource :saved_post, only: [:create, :destroy]
+    resources :reviews, only: [:create]
   end
 
   resources :notifications, only: [:index] do
