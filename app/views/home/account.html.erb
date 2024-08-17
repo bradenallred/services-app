@@ -10,7 +10,7 @@
     <div id="my-posts-container" class="grid grid-cols-2 gap-8">
         <% @posts.each do |post| %>
             <% if user_signed_in? && post.user == current_user %>
-                <div class="relative shadow-lg w-4/5 mx-auto rounded-xl overflow-hidden cursor-pointer" onclick="location.href='<%= post_path(post) %>'">
+                <div class="relative shadow-lg w-4/5 mx-auto rounded-xl overflow-hidden cursor-pointer">
                     <div id="menu-<%= post.id %>" class="absolute top-4 right-16 space-x-2 z-20 hidden">
                         <%= link_to 'Edit', edit_post_path(post), class: "bg-blue-500 text-white px-2 py-1 rounded", onclick: "event.stopPropagation();" %>
                         <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, class: "bg-red-500 text-white px-2 py-1 rounded", onclick: "event.stopPropagation();" %>
@@ -20,14 +20,28 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="4" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
                         </svg>
                     </button>
-                    <% if post.image.attached? %>
-                        <div class="relative pb-[56.25%]"> <!-- 16:9 Aspect Ratio -->
-                        <%= image_tag post.image, class: "absolute inset-0 w-full h-full object-cover rounded-t-xl" %>
+                    <% if post.images.attached? %>
+                <!-- make carousel -->
+                  <div data-controller="carousel" class="carousel relative overflow-hidden custom-hover-index-image">
+                    <div data-carousel-target="slides" class="flex transition-transform duration-300" onclick="location.href='<%= post_path(post) %>'">
+                      <% post.images.each_with_index do |image, index| %>
+                        <div class="carousel-item w-full relative pb-[56.25%] flex-shrink-0">
+                          <%= image_tag(image, class: "absolute inset-0 w-full h-full object-cover") %>
                         </div>
-                    <% else %>
-                        <div class="relative pb-[56.25%] bg-gray-100 rounded-t-xl"></div>
-                    <% end %>
-                    <div class="p-6 relative z-20">
+                      <% end %>
+                    </div>
+                    <!-- Navigation Arrows -->
+                    <button data-action="carousel#previous" class="absolute custom-hover-index left-0 top-1/2 transform text-sm -translate-y-1/2 w-7 h-7 shadow-lg bg-white rounded-full text-gray-800">
+                      &#10094;
+                    </button>
+                    <button data-action="carousel#next" class="absolute custom-hover-index right-0 top-1/2 transform text-sm -translate-y-1/2 w-7 h-7 shadow-lg bg-white rounded-full text-gray-800">
+                      &#10095;
+                    </button>
+                  </div>
+              <% else %>
+                <div class="relative pb-[56.25%] bg-gray-100 rounded-md" onclick="location.href='<%= post_path(post) %>'"></div>
+              <% end %>
+                    <div class="p-6 relative z-20" onclick="location.href='<%= post_path(post) %>'">
                         <h1 class="text-xl font-bold mb-2"><%= post.job_title %></h1>
                         <p class="text-sm text-gray-600"><%= post.user.email %></p>
                     </div>
