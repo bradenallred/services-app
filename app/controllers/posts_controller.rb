@@ -84,7 +84,23 @@ class PostsController < ApplicationController
     end
   end
 
+  def create_appointment
+    @post = Post.find(params[:post_id])
+    @appointment = @post.appointments.new(appointment_params)
+    @appointment.user = current_user
+  
+    if @appointment.save
+      redirect_to post_appointments_path(@post), notice: 'Appointment scheduled successfully.'
+    else
+      render :new
+    end
+  end
+
   private
+
+    def appointment_params
+      params.require(:appointment).permit(:date, :time, :notes)
+    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_post
