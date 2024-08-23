@@ -36,6 +36,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @review = Review.new 
     @reviews = @post.reviews.includes(:user) 
+    @appointment = Appointment.new(post: @post)
   end
 
   # GET /posts/new

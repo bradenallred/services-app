@@ -11,7 +11,10 @@ Rails.application.routes.draw do
   resources :posts do
     resource :saved_post, only: [:create, :destroy]
     resources :reviews, only: [:create]
+    resources :appointments, only: [:create]
   end
+
+  resources :appointments, only: [:index]
 
   resources :notifications, only: [:index] do
     member do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_18_225509) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_19_045551) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_18_225509) do
   end
 
   create_table "appointments", force: :cascade do |t|
-    t.date "date"
+    t.text "date"
     t.time "time"
     t.text "notes"
     t.integer "user_id", null: false

@@ -90,6 +90,7 @@
       <div class="relative pb-[56.25%] bg-gray-100 rounded-md"></div>
     <% end %>
 
+    <% if @reviews.any? %>
     <div class="reviews my-6">
       <div class="flex justify-between items-end mb-6">
         <h3 class="text-xl text-gray-800 font-medium">What people loved about this service</h3>
@@ -143,79 +144,106 @@
         </div>
       </div>
     </div>
+    <% end %>
     <div>
       <h1 class="text-2xl text-gray-800 font-medium mb-6">About</h1>
       <p class="md:text-lg text-gray-800 font-light"><%= post.job_description %></p>
     </div>
   </div>
 
-  <div class="h-full -mt-4 w-2/5 overflow-hidden p-8 fixed right-0">
-    <div class="max-w-[450px] pr-4">
-      <div class="flex items-center justify-end">
-        <% if user_signed_in? %>
-          <% if current_user.saved_posts.exists?(post: post) %>
-            <%= button_to post_saved_post_path(post), method: :delete do %>
-              <svg class="w-8 h-8 mr-3 -mb-[2px] transform hover:scale-110 transition duration-200 ease-in-out text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
-              </svg>
-            <% end %>
-          <% else %>
-            <%= button_to post_saved_post_path(post), method: :post do %>
-              <svg class="w-8 h-8 mr-3 -mb-[2px] transform hover:scale-110 transition duration-200 ease-in-out text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
-              </svg>
+
+  <div data-controller="popup">
+    <div class="h-full -mt-4 w-2/5 overflow-hidden p-8 fixed right-0">
+      <div class="max-w-[450px] pr-4">
+        <div class="flex items-center justify-end">
+          <% if user_signed_in? %>
+            <% if current_user.saved_posts.exists?(post: post) %>
+              <%= button_to post_saved_post_path(post), method: :delete do %>
+                <svg class="w-8 h-8 mr-3 -mb-[2px] transform hover:scale-110 transition duration-200 ease-in-out text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                </svg>
+              <% end %>
+            <% else %>
+              <%= button_to post_saved_post_path(post), method: :post do %>
+                <svg class="w-8 h-8 mr-3 -mb-[2px] transform hover:scale-110 transition duration-200 ease-in-out text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                </svg>
+              <% end %>
             <% end %>
           <% end %>
-        <% end %>
-        <button class="mr-2 px-3 py-1 border border-gray-400 rounded-lg hover:bg-gray-50">
-          <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7.926 10.898 15 7.727m-7.074 5.39L15 16.29M8 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm12 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm0-11a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
-          </svg>
-        </button>
-        <div class="relative" data-controller="dropdown">
-          <button data-dropdown-target="toggle" data-action="click->dropdown#toggle" class="mr-2 px-3 py-1 border border-gray-400 rounded-lg hover:bg-gray-50">
+          <button class="mr-2 px-3 py-1 border border-gray-400 rounded-lg hover:bg-gray-50">
             <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
+              <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7.926 10.898 15 7.727m-7.074 5.39L15 16.29M8 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm12 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm0-11a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
             </svg>
           </button>
-          <div data-dropdown-target="menu" class="absolute top-10 hidden right-0 z-10 bg-white py-2 shadow-xl rounded">
-            <button data-action="popup#open" class="whitespace-nowrap hover:bg-gray-100 py-1 px-4 flex">
-              <svg class="w-6 h-6 text-gray-800 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-width="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z"/>
+          <div class="relative" data-controller="dropdown">
+            <button data-dropdown-target="toggle" data-action="click->dropdown#toggle" class="mr-2 px-3 py-1 border border-gray-400 rounded-lg hover:bg-gray-50">
+              <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
               </svg>
-              Write a Review
             </button>
+            <div data-dropdown-target="menu" class="absolute top-10 hidden right-0 z-10 bg-white py-2 shadow-xl rounded">
+              <button data-action="popup#open" class="whitespace-nowrap hover:bg-gray-100 py-1 px-4 flex">
+                <svg class="w-6 h-6 text-gray-800 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-width="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z"/>
+                </svg>
+                Write a Review
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="mt-4 flex flex-col items-center p-6 border rounded-sm border-gray-600">
-        <h1 class="text-xl">Schedule</h1>
-        <div id="date_picker" class="" data-controller="datepicker">
-          <div id="date_picker_input">
-            <input type="text" id="date" class="hidden" readonly data-datepicker-target="input"/>
-          </div>
-          <div id="date_picker_calendar">
-            <div id="calendar_header">
-            <button class="cal-btn back" data-action="click->datepicker#setHeaderNav" data-offset="-1"><img
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABJUlEQVR4nO2Uv0oDQRCHR9BKrAQJ2FgIdnc7njtzSbMzd7lGC80T5DXMW+gzpNJHsPEJYuELBA60EBELsfIfBGIixvNyt0IKP9h2vt3fb1iAfxaCXZt0DGuOrO8+jmHNQ3JHnwLDeutrOI4lJDcTAcngDwSDSUSkCbK++RSEJAdfejCkfX+31/63oq1N15H0rn7Bch80s42Z22SsdGsLrHQLVxZJLioLSC8BYKlQELLbQpanCrk/Y+y2C4dPFd6bP3s9hrI455aR9GqO219HUbRSWjB6xV5qDcnL7wJ5RZs2oQpIelqi2BOoShBkq0g6LMg932m11qAOhnX/5+zlEHyALOczhp+BL6x1DSR9mPoOHsM42QSfGE6yUR+kQxO7ttfhC80HheuaG9wAq10AAAAASUVORK5CYII="></button>
-            <span data-datepicker-target="headerTitle"></span>
-            <button class="cal-btn front" data-action="click->datepicker#setHeaderNav" data-offset="1"><img
+        <div class="mt-4 flex flex-col items-center p-6 border rounded-sm border-gray-600">
+          <h1 class="text-xl">Schedule</h1>
+          <div id="date_picker" class="" data-controller="datepicker">
+            <div id="date_picker_input">
+              <input type="text" id="date" class="hidden" readonly data-datepicker-target="input">
+            </div>
+            <div id="date_picker_calendar">
+              <div id="calendar_header">
+              <button class="cal-btn back" data-action="click->datepicker#setHeaderNav" data-offset="-1"><img
                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABJUlEQVR4nO2Uv0oDQRCHR9BKrAQJ2FgIdnc7njtzSbMzd7lGC80T5DXMW+gzpNJHsPEJYuELBA60EBELsfIfBGIixvNyt0IKP9h2vt3fb1iAfxaCXZt0DGuOrO8+jmHNQ3JHnwLDeutrOI4lJDcTAcngDwSDSUSkCbK++RSEJAdfejCkfX+31/63oq1N15H0rn7Bch80s42Z22SsdGsLrHQLVxZJLioLSC8BYKlQELLbQpanCrk/Y+y2C4dPFd6bP3s9hrI455aR9GqO219HUbRSWjB6xV5qDcnL7wJ5RZs2oQpIelqi2BOoShBkq0g6LMg932m11qAOhnX/5+zlEHyALOczhp+BL6x1DSR9mPoOHsM42QSfGE6yUR+kQxO7ttfhC80HheuaG9wAq10AAAAASUVORK5CYII="></button>
-            </div>
-            <div id="cal_wrapper">
-              <div id="cal_days" data-datepicker-target="days"></div>
-              <div id="calendar_main" data-datepicker-target="calendarMain"></div>
+              <span data-datepicker-target="headerTitle"></span>
+              <button class="cal-btn front" data-action="click->datepicker#setHeaderNav" data-offset="1"><img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABJUlEQVR4nO2Uv0oDQRCHR9BKrAQJ2FgIdnc7njtzSbMzd7lGC80T5DXMW+gzpNJHsPEJYuELBA60EBELsfIfBGIixvNyt0IKP9h2vt3fb1iAfxaCXZt0DGuOrO8+jmHNQ3JHnwLDeutrOI4lJDcTAcngDwSDSUSkCbK++RSEJAdfejCkfX+31/63oq1N15H0rn7Bch80s42Z22SsdGsLrHQLVxZJLioLSC8BYKlQELLbQpanCrk/Y+y2C4dPFd6bP3s9hrI455aR9GqO219HUbRSWjB6xV5qDcnL7wJ5RZs2oQpIelqi2BOoShBkq0g6LMg932m11qAOhnX/5+zlEHyALOczhp+BL6x1DSR9mPoOHsM42QSfGE6yUR+kQxO7ttfhC80HheuaG9wAq10AAAAASUVORK5CYII="></button>
+              </div>
+              <div id="cal_wrapper">
+                <div id="cal_days" data-datepicker-target="days"></div>
+                <div id="calendar_main" data-datepicker-target="calendarMain"></div>
+              </div>
             </div>
           </div>
+          <button data-action="click->popup#open" class="w-full flex justify-center items-center py-3 bg-gray-800 hover:bg-gray-600 text-white text-lg my-4 rounded-sm text-center mx-4">
+            Continue
+            <svg class="w-6 ml-2 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+            </svg>
+          </button>
+          <%= link_to 'Contact Seller', new_with_receiver_messages_path(user_id: post.user.id), class:"w-full py-3 border border-gray-800 text-gray-800 text-center text-lg rounded-sm mx-4 hover:bg-gray-100" %>
         </div>
-        <button class="w-full flex justify-center items-center py-3 bg-gray-800 hover:bg-gray-600 text-white text-lg my-4 rounded-sm text-center mx-4">
-          Continue
-          <svg class="w-6 ml-2 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
-          </svg>
-        </button>
-        <%= link_to 'Contact Seller', new_with_receiver_messages_path(user_id: post.user.id), class:"w-full py-3 border border-gray-800 text-gray-800 text-center text-lg rounded-sm mx-4 hover:bg-gray-100" %>
       </div>
     </div>
+
+    <!-- schedule popup -->
+    <div class="fixed hidden w-[95%] sm:w-[80%] md:w-[65%] lg:w-[55%] max-w-[800px] max-h-[80%] mt-8 overflow-hidden top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 shadow-xl bg-white py-6 px-12 rounded-md" data-popup-target="modal">
+      <div data-appointment-target="error" style="display: none; color: red;"></div>
+      <h1 class="text-gray-800 text-[22px] text-center mb-4">Schedule a Time</h1>
+      <%= form_with(model: [@post, Appointment.new], local: true, data: { controller: "appointment" }) do |form| %>
+        <%= form.text_area :date, id: 'internalInput', class: "resize-none", readonly: true %>
+        <div>
+          <%= form.time_field :time, class: "mb-4" %>
+          <%= form.text_area :notes, class: "resize-none w-full border border-2 border-gray-800 rounded py-1 px-2 font-light", placeholder: "Extra Details" %>
+        </div>
+        <div class="w-full flex">
+          <button class="w-1/2 mr-4 py-3 bg-white border border-gray-800 hover:bg-gray-100 text-center text-lg text-gray-800 rounded-sm">Back</button>
+          <%= form.submit data: { action: "appointment#submit" }, class:"flex w-1/2 cursor-pointer ml-4 justify-center items-center py-3 bg-gray-800 hover:bg-gray-600 text-white text-lg rounded-sm text-center" do %>
+            Continue
+            <svg class="w-6 ml-2 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4"/>
+              </svg>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
   </div>
 </div>

@@ -1,0 +1,32 @@
+<h1>Your Appointments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Post</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @appointments.each do |appointment| %>
+      <tr>
+        <td><%= appointment.post.job_title %></td>
+        <td><%= appointment.date %></td>
+        <td><%= appointment.time %></td>
+        <td><%= appointment.notes %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h1>Appointments on Your Posts</h1>
+<% @post_appointments.each do |appointment| %>
+  <p>
+    <%= appointment.user.email %> made an appointment for
+    <%= appointment.post.job_title %>
+    on <%= appointment.date %> at <%= appointment.time %>.
+    Notes: <%= appointment.notes %>
+  </p>
+<% end %>

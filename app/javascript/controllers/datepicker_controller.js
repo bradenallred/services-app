@@ -20,6 +20,9 @@ export default class extends Controller {
       // Set the input value to today's date
         if (this.hasInputTarget) {
           this.inputTarget.value = this.formatDate(today);
+          const formDate = document.querySelector('#internalInput');
+            formDate.value = this.inputTarget.value;
+            console.log('form date value:', formDate.value);
       }
       console.log(this.inputTarget.value)
   }
@@ -114,6 +117,10 @@ formatDate(date) {
     // Optional: perform any additional actions, e.g., updating an input field
     this.inputTarget.value = new Date(timestamp).toLocaleDateString();
     console.log(this.inputTarget.value)
+
+    const formDate = document.querySelector('#internalInput');
+    formDate.value = this.inputTarget.value;
+    console.log('form date value:', formDate.value);
 }
 
   isCurrentDay(day, cell) {
